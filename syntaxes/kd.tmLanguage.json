@@ -1,0 +1,381 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "kd",
+  "scopeName": "source.kd",
+  "fileTypes": [
+    "kd"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#support"
+    },
+    {
+      "include": "#variables"
+    }
+  ],
+  "repository": {
+    "variables": {
+      "patterns": [
+        {
+          "name": "meta.function.declaration.kd",
+          "patterns": [
+            {
+              "match": "\\b(fn)\\s+([A-Z][a-zA-Z0-9]*)\\b",
+              "captures": {
+                "1": {
+                  "name": "storage.type.function.kd"
+                },
+                "2": {
+                  "name": "entity.name.type.kd"
+                }
+              }
+            },
+            {
+              "match": "\\b(fn)\\s+([_a-zA-Z][_a-zA-Z0-9]*)\\b",
+              "captures": {
+                "1": {
+                  "name": "storage.type.function.kd"
+                },
+                "2": {
+                  "name": "entity.name.function.kd"
+                }
+              }
+            },
+            {
+              "begin": "\\b(fn)\\s+@\"",
+              "end": "\"",
+              "name": "entity.name.function.kd",
+              "beginCaptures": {
+                "1": {
+                  "name": "storage.type.function.kd"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "#stringcontent"
+                }
+              ]
+            },
+            {
+              "name": "keyword.default.kd",
+              "match": "\\b(const|var|fn)\\b"
+            }
+          ]
+        },
+        {
+          "name": "meta.function.call.kd",
+          "patterns": [
+            {
+              "match": "([A-Z][a-zA-Z0-9]*)(?=\\s*\\()",
+              "name": "entity.name.type.kd"
+            },
+            {
+              "match": "([_a-zA-Z][_a-zA-Z0-9]*)(?=\\s*\\()",
+              "name": "entity.name.function.kd"
+            }
+          ]
+        },
+        {
+          "name": "meta.variable.kd",
+          "patterns": [
+            {
+              "match": "\\b[_A-Z][_A-Z0-9]+\\b",
+              "name": "variable.constant.kd"
+            },
+            {
+              "match": "\\b[_a-zA-Z][_a-zA-Z0-9]*_t\\b",
+              "name": "entity.name.type.kd"
+            },
+            {
+              "match": "\\b[A-Z][a-zA-Z0-9]*\\b",
+              "name": "entity.name.type.kd"
+            },
+            {
+              "match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b",
+              "name": "variable.kd"
+            },
+            {
+              "begin": "@\"",
+              "end": "\"",
+              "name": "variable.kd",
+              "patterns": [
+                {
+                  "include": "#stringcontent"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\binline\\b(?!\\s*\\bfn\\b)",
+          "name": "keyword.control.repeat.kd"
+        },
+        {
+          "match": "\\b(while|for)\\b",
+          "name": "keyword.control.repeat.kd"
+        },
+        {
+          "name": "keyword.storage.kd",
+          "match": "\\b(extern|packed|export|pub|noalias|inline|comptime|volatile|align|linksection|threadlocal|allowzero|noinline|callconv)\\b"
+        },
+        {
+          "name": "keyword.structure.kd",
+          "match": "\\b(struct|enum|union|opaque)\\b"
+        },
+        {
+          "name": "keyword.statement.kd",
+          "match": "\\b(asm|unreachable)\\b"
+        },
+        {
+          "name": "keyword.control.flow.kd",
+          "match": "\\b(break|return|continue|defer|errdefer)\\b"
+        },
+        {
+          "name": "keyword.control.async.kd",
+          "match": "\\b(await|resume|suspend|async|nosuspend)\\b"
+        },
+        {
+          "name": "keyword.control.trycatch.kd",
+          "match": "\\b(try|catch)\\b"
+        },
+        {
+          "name": "keyword.control.conditional.kd",
+          "match": "\\b(if|else|switch|orelse)\\b"
+        },
+        {
+          "name": "keyword.constant.default.kd",
+          "match": "\\b(null|undefined)\\b"
+        },
+        {
+          "name": "keyword.constant.bool.kd",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "match": "[\\s\\(\\[\\{](\\.[_a-zA-Z][_a-zA-Z0-9]*)(?!\\s*=[^>]|\\s*\\()(?![_a-zA-Z0-9])",
+          "captures": {
+            "1": {
+              "name": "variable.other.enummember.kd"
+            }
+          }
+        },
+        {
+          "match": "[\\s\\(\\[\\{](\\.@\"[^\"]*\")(?!\\s*=[^>]|\\s*\\()",
+          "captures": {
+            "1": {
+              "name": "variable.other.enummember.kd"
+            }
+          }
+        },
+        {
+          "name": "keyword.default.kd",
+          "match": "\\b(usingnamespace|test|and|or)\\b"
+        },
+        {
+          "name": "meta.error-set.kd",
+          "patterns": [
+            {
+              "begin": "\\b(error)\\b\\s*{",
+              "end": "}",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.type.kd"
+                }
+              },
+              "patterns": [
+                {
+                  "match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b",
+                  "name": "variable.constant.error.kd"
+                },
+                {
+                  "include": "$self"
+                }
+              ]
+            },
+            {
+              "begin": "\\b(error)\\b",
+              "end": "\\b([_a-zA-Z][_a-zA-Z0-9]*)\\b",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.type.kd"
+                }
+              },
+              "endCaptures": {
+                "1": {
+                  "name": "variable.constant.error.kd"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "keyword.type.kd",
+          "match": "\\b(bool|void|noreturn|type|error|anyerror|anyframe|anytype|anyopaque)\\b"
+        },
+        {
+          "name": "keyword.type.integer.kd",
+          "match": "\\b(f16|f32|f64|f80|f128|u\\d+|i\\d+|isize|usize|comptime_int|comptime_float)\\b"
+        },
+        {
+          "name": "keyword.type.c.kd",
+          "match": "\\b(c_short|c_ushort|c_int|c_uint|c_long|c_ulong|c_longlong|c_ulonglong|c_longdouble)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.c-pointer.kd",
+          "match": "\\[*c\\]"
+        },
+        {
+          "name": "keyword.operator.comparison.kd",
+          "match": "(\\b(and|or)\\b)|(==|!=)"
+        },
+        {
+          "name": "keyword.operator.arithmetic.kd",
+          "match": "(-%?|\\+%?|\\*%?|/|%)=?"
+        },
+        {
+          "name": "keyword.operator.bitwise.kd",
+          "match": "(<<%?|>>|!|&|\\^|\\|)=?"
+        },
+        {
+          "name": "keyword.operator.special.kd",
+          "match": "(==|\\+\\+|\\*\\*|->)"
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.documentation.kd",
+          "begin": "//[!/](?=[^/])",
+          "end": "$",
+          "patterns": [
+            {
+              "include": "#commentContents"
+            }
+          ]
+        },
+        {
+          "name": "comment.line.double-slash.kd",
+          "begin": "//",
+          "end": "$",
+          "patterns": [
+            {
+              "include": "#commentContents"
+            }
+          ]
+        }
+      ]
+    },
+    "commentContents": {
+      "patterns": [
+        {
+          "match": "\\b(TODO|FIXME|XXX|NOTE)\\b:?",
+          "name": "keyword.todo.kd"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.kd",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "include": "#stringcontent"
+            }
+          ]
+        },
+        {
+          "name": "string.multiline.kd",
+          "begin": "\\\\\\\\",
+          "end": "$"
+        },
+        {
+          "name": "string.quoted.single.kd",
+          "match": "'([^'\\\\]|\\\\(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.))'"
+        }
+      ]
+    },
+    "stringcontent": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.kd",
+          "match": "\\\\([nrt'\"\\\\]|(x[0-9a-fA-F]{2})|(u\\{[0-9a-fA-F]+\\}))"
+        },
+        {
+          "name": "invalid.illegal.unrecognized-string-escape.kd",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hexfloat.kd",
+          "match": "\\b0x[0-9a-fA-F][0-9a-fA-F_]*(\\.[0-9a-fA-F][0-9a-fA-F_]*)?([pP][+-]?[0-9a-fA-F_]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.float.kd",
+          "match": "\\b[0-9][0-9_]*(\\.[0-9][0-9_]*)?([eE][+-]?[0-9_]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.kd",
+          "match": "\\b[0-9][0-9_]*\\b"
+        },
+        {
+          "name": "constant.numeric.hexadecimal.kd",
+          "match": "\\b0x[a-fA-F0-9_]+\\b"
+        },
+        {
+          "name": "constant.numeric.octal.kd",
+          "match": "\\b0o[0-7_]+\\b"
+        },
+        {
+          "name": "constant.numeric.binary.kd",
+          "match": "\\b0b[01_]+\\b"
+        },
+        {
+          "name": "constant.numeric.invalid.kd",
+          "match": "\\b[0-9](([eEpP][+-])|[0-9a-zA-Z_])*(\\.(([eEpP][+-])|[0-9a-zA-Z_])*)?([eEpP][+-])?[0-9a-zA-Z_]*\\b"
+        }
+      ]
+    },
+    "support": {
+      "patterns": [
+        {
+          "comment": "Built-in functions",
+          "name": "support.function.builtin.kd",
+          "match": "@[_a-zA-Z][_a-zA-Z0-9]*"
+        }
+      ]
+    }
+  }
+}

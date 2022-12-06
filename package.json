@@ -1,0 +1,129 @@
+{
+  "name": "vscode-kd",
+  "displayName": "Kd Programming Language",
+  "description": "Language support for the Kd programming language",
+  "version": "0.2.5",
+  "publisher": "kdlanguage",
+  "icon": "images/kd-icon.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kd-lang/vscode-kd"
+  },
+  "engines": {
+    "vscode": "^1.56.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:kd"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "kd",
+        "extensions": [
+          ".kd"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "kd",
+        "scopeName": "source.kd",
+        "path": "./syntaxes/kd.tmLanguage.json"
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "kd",
+        "owner": "kd",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "([^\\s]*):(\\d+):(\\d+):\\s+(?:fatal\\s+)?(note|error):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "kd",
+      "properties": {
+        "kd.buildOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Compiles code on file save using the settings specified in 'Build Option'."
+        },
+        "kd.buildOption": {
+          "type": "string",
+          "default": "build",
+          "enum": [
+            "build",
+            "build-exe",
+            "build-lib",
+            "build-obj"
+          ],
+          "description": "Which build command Kd should use to build the code."
+        },
+        "kd.buildArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra arguments to passed to Kd."
+        },
+        "kd.buildFilePath": {
+          "type": "string",
+          "default": "${workspaceFolder}/build.kd",
+          "description": "The path to build.kd. This is only required if kd.buildOptions = build."
+        },
+        "kd.kdPath": {
+          "type": "string",
+          "default": null,
+          "description": "Set a custom path to the Kd binary. Defaults to 'kd' in your PATH."
+        },
+        "kd.revealOutputChannelOnFormattingError": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should output channel be raised on formatting error."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "kd.build.workspace",
+        "title": "Kd: Build Workspace",
+        "description": "Build the current project using 'kd build'"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "esbuild --bundle --sourcemap=external --minify --external:vscode src/extension.ts --outdir=out --platform=node --format=cjs",
+    "watch": "esbuild --watch --bundle --sourcemap=external --external:vscode src/extension.ts --outdir=out --platform=node --format=cjs",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.48",
+    "@types/node": "^15.6.0",
+    "@types/vscode": "^1.43.0",
+    "vscode-test": "^1.4.0"
+  },
+  "dependencies": {
+    "esbuild": "^0.12.1",
+    "lodash-es": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
+    "vsce": "^2.11.0"
+  }
+}

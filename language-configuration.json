@@ -1,0 +1,53 @@
+{
+    "comments": {
+        "lineComment": "//"
+    },
+    "brackets": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ],
+    "autoClosingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["\"", "\""],
+        ["'", "'"]
+    ],
+    "surroundingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["\"", "\""],
+        ["'", "'"]
+    ],
+    "folding": {
+        "markers": {
+            "start": "// kd fmt: off\\b",
+            "end": "// kd fmt: on\\b"
+        }
+    },
+    "onEnterRules": [
+        {
+            "beforeText": "//!.*$",
+            "action": {
+                "indent": "none", 
+                "appendText": "//! "
+            }
+        },
+        {
+            "beforeText": "///.*$",
+            "action": {
+                "indent": "none", 
+                "appendText": "/// "
+            }
+        },
+        {
+            "beforeText": "\\\\\\\\.*$",
+            "action": {
+                "indent": "none", 
+                "appendText": "\\\\"
+            }
+        }
+    ]
+}
